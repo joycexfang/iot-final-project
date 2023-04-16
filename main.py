@@ -29,14 +29,13 @@ from traffic_light import TrafficLight
 def main():
     # initialize the traffic light object
     traffic_light = TrafficLight("red")
-    print(traffic_light)
 
     # initialize the car 1 object
-    car1 = Car(1, 30)
-    print(car1)
+    car1 = Car(1, 30, traffic_light)
+    car1.change_speed()
 
     # initialize the car 2 object
-    car2 = Car(2, 30)
+    car2 = Car(2, 30, traffic_light)
     print(car2)
 
 if __name__ == "__main__":

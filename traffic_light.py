@@ -17,3 +17,6 @@ class TrafficLight:
             self.state = "red"
 
         print("changed self.state to:", self.state)
+
+    def get_state(self):
+        return self.state
