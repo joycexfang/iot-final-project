@@ -17,4 +17,6 @@ class Car:
         print("changed self.curr_speed to:", self.curr_speed)
 
     def calculate_speed(self, light_color):
-        return self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.rank))) * 1.2
+        
+        self.curr_speed = self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.rank))) * 1.2
+        return self.curr_speed
