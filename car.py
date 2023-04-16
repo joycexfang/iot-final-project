@@ -18,5 +18,5 @@ class Car:
 
     def calculate_speed(self, light_color):
         
-        self.curr_speed = self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.rank))) * 1.2
-        return self.curr_speed
+        return self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.rank))) * 1.2
+        
