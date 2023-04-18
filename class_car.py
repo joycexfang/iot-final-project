@@ -1,6 +1,6 @@
 import math # import math library
 import time # import the time module
-from traffic_light import TrafficLight
+from class_traffic_light import TrafficLight
 import datetime
 
 tracking = time.time()
