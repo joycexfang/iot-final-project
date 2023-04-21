@@ -1,6 +1,28 @@
 import math # import math library
 import time # import the time module
 from digi.xbee.devices import XBeeDevice
+#This code was taken from https://ben.akrin.com/driving-a-28byj-48-stepper-motor-uln2003-driver-with-a-raspberry-pi/
+#!/usr/bin/python3
+import RPi.GPIO as GPIO
+
+in1 = 17
+in2 = 18
+in3 = 27
+in4 = 22
+
+step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
+
+direction = False # True for clockwise, False for counter-clockwise
+
+# defining stepper motor sequence (found in documentation http://www.4tronix.co.uk/arduino/Stepper-Motors.php)
+step_sequence = [[1,0,0,1],
+                 [1,0,0,0],
+                 [1,1,0,0],
+                 [0,1,0,0],
+                 [0,1,1,0],
+                 [0,0,1,0],
+                 [0,0,1,1],
+                 [0,0,0,1]]
 
 """
 Modify the device_url based on your port name
@@ -8,9 +30,7 @@ For Windows, go to Device Manage > Ports (typically COM7)
 For Mac, do ‘ls /dev/cu.*’ in terminal (typically /dev/cu.usbserial-00000000)
 For RPi, do ‘ls /dev/ttyUSB*’ in terminal (typically /dev/ttyUSB0)
 """
-
 device_url = "/dev/cu.usbserial-00000000"
-
 tracking = time.time()
 
 class Car:
@@ -23,8 +43,59 @@ class Car:
         self.device = XBeeDevice(device_url, 9600)
         self.device.open()
 
+        self.GPIO_init()
+        self.motor_pins = [in1,in2,in3,in4]
+        self.motor_step_counter = 0
+        
+        # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
+        self.step_sleep = 0.001
+
     def __str__(self):
         return "CAR self.rank: {} \t self.max_speed: {} \t self.curr_speed: {}".format(self.rank, self.max_speed, self.curr_speed)
+
+    def GPIO_init(self):
+        # setting up
+        GPIO.setmode( GPIO.BCM )
+        GPIO.setup( in1, GPIO.OUT )
+        GPIO.setup( in2, GPIO.OUT )
+        GPIO.setup( in3, GPIO.OUT )
+        GPIO.setup( in4, GPIO.OUT )
+
+        # initializing
+        GPIO.output( in1, GPIO.LOW )
+        GPIO.output( in2, GPIO.LOW )
+        GPIO.output( in3, GPIO.LOW )
+        GPIO.output( in4, GPIO.LOW )
+    
+    def cleanup(self):
+        GPIO.output( in1, GPIO.LOW )
+        GPIO.output( in2, GPIO.LOW )
+        GPIO.output( in3, GPIO.LOW )
+        GPIO.output( in4, GPIO.LOW )
+        GPIO.cleanup()
+
+    def spin_up(self):
+        # the meat
+        try:
+            i = 0
+            for i in range(step_count):
+                for pin in range(0, len(self.motor_pins)):
+                    GPIO.output( self.motor_pins[pin], step_sequence[self.motor_step_counter][pin] )
+                if direction==True:
+                    self.motor_step_counter = (self.motor_step_counter - 1) % 8
+                elif direction==False:
+                    self.motor_step_counter = (self.motor_step_counter + 1) % 8
+                else: # defensive programming
+                    print( "uh oh... direction should *always* be either True or False" )
+                    self.cleanup()
+                    exit( 1 )
+                time.sleep( self.step_sleep )
+        except KeyboardInterrupt:
+            self.cleanup()
+            exit( 1 )
+
+        self.cleanup()
+        exit( 0 )
 
     def change_speed(self):
         # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
