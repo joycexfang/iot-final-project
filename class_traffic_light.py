@@ -1,11 +1,21 @@
 from digi.xbee.devices import XBeeDevice
+"""
+Modify the device_url based on your port name
+For Windows, go to Device Manage > Ports (typically COM7)
+For Mac, do ‘ls /dev/cu.*’ in terminal (typically /dev/cu.usbserial-00000000)
+For RPi, do ‘ls /dev/ttyUSB*’ in terminal (typically /dev/ttyUSB0)
+"""
+
 device_url = "/dev/cu.usbserial-00000000"
 
 class TrafficLight:
     def __init__(self, initial_state):
+        self.state = initial_state
+
         # Instantiate a local XBee node.
         self.device = XBeeDevice(device_url, 9600)
-        self.state = initial_state
+        self.device.open()
+        
 
     def __str__(self):
         return "TRAFFIC LIGHT self.state: {}".format(self.state)
