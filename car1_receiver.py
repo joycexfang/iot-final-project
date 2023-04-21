@@ -1,5 +1,6 @@
 from class_car import Car
 
+# This file is for the car 1 receiver main program
 def main():
      # initialize the car 1 object
     car1 = Car(1, 30)

@@ -27,6 +27,7 @@ from class_car import Car
 from class_traffic_light import TrafficLight
 import time
 
+# This file is for the traffic light transmitter main program
 def main():
     # create an instance of a traffic light object with an initial "red" light state,
     # a Zigbee Transmitter Device will also be instantiated here
