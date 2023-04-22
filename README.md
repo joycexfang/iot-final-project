@@ -83,4 +83,4 @@ Car 2 RPi: `pi@191.168.1.127`
 
 3. run the following command on local machine:
 
-`scp file_name.py username@<ip address>:/home/iot_final_project/<path to file>`
+`scp <name_of_this_project_directory> -r username@<ip address>:/home/{username}`
