@@ -73,7 +73,7 @@ def main():
         time.sleep(1)
 
     # Clean up GPIO pins
-    GPIO.cleanup()
+        GPIO.cleanup()
         print("Closing traffic light zigbee")
         traffic_light.close_zigbee()
 
