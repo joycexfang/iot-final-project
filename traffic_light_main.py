@@ -52,7 +52,7 @@ def main():
         # Turn on green for 10 sec
         GPIO.output(grn, GPIO.HIGH)
         traffic_light.set_state("green")
-        transmit_message(self, traffic_light.get_state(), car_rank=1)
+        traffic_light.transmit_message(traffic_light.get_state(), car_rank=1)
         time.sleep(10)
         GPIO.output(grn, GPIO.LOW)
         time.sleep(0.1)
@@ -60,7 +60,7 @@ def main():
         #Turn on yellow for 2 sec
         GPIO.output(yel, GPIO.HIGH)
         traffic_light.set_state("yellow")
-        transmit_message(self, traffic_light.get_state(), car_rank=1)
+        traffic_light.transmit_message(traffic_light.get_state(), car_rank=1)
         time.sleep(2)
         GPIO.output(yel, GPIO.LOW)
         time.sleep(0.1)
@@ -68,7 +68,7 @@ def main():
         #Turn on red for 10 sec
         GPIO.output(red, GPIO.HIGH)
         traffic_light.set_state("red")
-        transmit_message(self, traffic_light.get_state(), car_rank=1)
+        traffic_light.transmit_message(traffic_light.get_state(), car_rank=1)
         time.sleep(10)
         GPIO.output(red, GPIO.LOW)
         time.sleep(0.1)

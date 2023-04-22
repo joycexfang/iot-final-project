@@ -78,13 +78,12 @@ class Car:
         GPIO.output( in4, GPIO.LOW )
         GPIO.cleanup()
 
-    def adjust_speed(self):
-        # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
-        self.refresh_speed()
-        # print("changed self.curr_speed to:", self.curr_speed)
+    # def adjust_speed(self):
+    #     # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
+    #     # print("changed self.curr_speed to:", self.curr_speed)
 
-    def calculate_speed(self, light_color):
-        return self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.position_rank))) * 1.2
+    # def calculate_speed(self, light_color):
+    #     return self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.position_rank))) * 1.2
 
     # only car of rank 1 should transmit messages to car of rank 2
     def transmit_message(self, message):

@@ -105,7 +105,8 @@ def refresh_speed(car_proxy):
             curr_oldtime = time.time()
         time.sleep(0.25)
         try:
-            car_object.adjust_speed()
+            #car_object.adjust_speed()
+            car_object.step_sleep += 0.001
         except Exception as e:
             print(e, "Error occurred while adjusting speed.")
         print("0.25 seconds passed")
