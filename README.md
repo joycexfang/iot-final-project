@@ -1,6 +1,6 @@
 # Vehicle and Traffic Light Network Interfacing Project
 
-IOT 4660 - Internetworking of Things
+ECSE 4660 - Internetworking of Things
 
 By: Joyce Fang and Nobu Shibata
 
