@@ -66,3 +66,21 @@ Hardware used:
 ## how to run car 2
 
 `python3 car2_main.py`
+
+## IP Addresses
+
+Traffic Light RPi: `pi@191.168.1.157`
+
+Car 1 RPi: `shibata@191.168.1.19`
+
+Car 2 RPi: `pi@191.168.1.127`
+
+# Instructions to SCP files from local machine to RPi
+
+1. on your local machine, open terminal
+
+2. cd into the directory where your python files are
+
+3. run the following command on local machine:
+
+`scp file_name.py username@<ip address>:/home/iot_final_project/<path to file>`
