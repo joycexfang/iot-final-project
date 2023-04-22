@@ -23,7 +23,6 @@ Hardware used:
 3. Car 2 - 1 x Zigbee Transmitter, 1 x Zigbee Receiver
 """
 
-from class_car import Car
 from class_traffic_light import TrafficLight
 import time
 

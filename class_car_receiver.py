@@ -5,25 +5,6 @@ from digi.xbee.devices import XBeeDevice
 #!/usr/bin/python3
 import RPi.GPIO as GPIO
 
-in1 = 17
-in2 = 18
-in3 = 27
-in4 = 22
-
-step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
-
-direction = False # True for clockwise, False for counter-clockwise
-
-# defining stepper motor sequence (found in documentation http://www.4tronix.co.uk/arduino/Stepper-Motors.php)
-step_sequence = [[1,0,0,1],
-                 [1,0,0,0],
-                 [1,1,0,0],
-                 [0,1,0,0],
-                 [0,1,1,0],
-                 [0,0,1,0],
-                 [0,0,1,1],
-                 [0,0,0,1]]
-
 """
 Modify the device_url based on your port name
 For Windows, go to Device Manage > Ports (typically COM7)
@@ -73,29 +54,6 @@ class Car:
         GPIO.output( in3, GPIO.LOW )
         GPIO.output( in4, GPIO.LOW )
         GPIO.cleanup()
-
-    def spin_up(self):
-        # the meat
-        try:
-            i = 0
-            for i in range(step_count):
-                for pin in range(0, len(self.motor_pins)):
-                    GPIO.output( self.motor_pins[pin], step_sequence[self.motor_step_counter][pin] )
-                if direction==True:
-                    self.motor_step_counter = (self.motor_step_counter - 1) % 8
-                elif direction==False:
-                    self.motor_step_counter = (self.motor_step_counter + 1) % 8
-                else: # defensive programming
-                    print( "uh oh... direction should *always* be either True or False" )
-                    self.cleanup()
-                    exit( 1 )
-                time.sleep( self.step_sleep )
-        except KeyboardInterrupt:
-            self.cleanup()
-            exit( 1 )
-
-        self.cleanup()
-        exit( 0 )
 
     def change_speed(self):
         # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
