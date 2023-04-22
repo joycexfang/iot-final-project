@@ -89,12 +89,12 @@ Car 2 RPi: `pi@191.168.1.127`
 
 CAR 1:
 
-scp iot-final-project -r shibata@191.168.1.19:/home/shibata
+scp -r iot-final-project shibata@191.168.1.19:/home/shibata
 
 TRAFFIC LIGHT:
 
-scp iot-final-project -r pi@191.168.1.157:/home/pi
+scp -r iot-final-project pi@191.168.1.157:/home/pi
 
 CAR 2:
 
-scp iot-final-project -r pi@191.168.1.127:/home/pi
+scp -r iot-final-project pi@191.168.1.127:/home/pi
