@@ -143,6 +143,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("CAR1_MAIN: Program stopped by user.")
         print("CAR1_MAIN: closing zigbee receiver AND transmitter, and cleaning up motor pins")
-        car_object.value.close_zigbee_receiver()
-        car_object.value.close_zigbee_transmitter()
-        car_object.value.clean_up_motor_pins()
+        car_object.close_zigbee_receiver()
+        car_object.close_zigbee_transmitter()
+        car_object.clean_up_motor_pins()
