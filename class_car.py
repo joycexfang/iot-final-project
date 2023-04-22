@@ -94,7 +94,6 @@ class Car:
             return "cannot transmit message from a non-rank 1 car"
         else:
             self.device_transmitter.send_data_broadcast(message)
-
     
     # car of rank 1 can only receive from traffic light
     # car of rank 2 can only receive from car of rank 1

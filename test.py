@@ -1,5 +1,5 @@
-#This code was taken from https://ben.akrin.com/driving-a-28byj-48-stepper-motor-uln2003-driver-with-a-raspberry-pi/
-#!/usr/bin/python3
+# #This code was taken from https://ben.akrin.com/driving-a-28byj-48-stepper-motor-uln2003-driver-with-a-raspberry-pi/
+# #!/usr/bin/python3
 # import RPi.GPIO as GPIO
 # import time
 
