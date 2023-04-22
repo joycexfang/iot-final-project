@@ -50,6 +50,9 @@ class Car:
         # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
         self.step_sleep = 0.001
 
+        self.need_transmit = False
+        self.msg_data = ""
+
     def __str__(self):
         return "CAR self.rank: {} \t self.max_speed: {} \t self.curr_speed: {}".format(self.rank, self.max_speed, self.curr_speed)
 
@@ -98,16 +101,22 @@ class Car:
 
     # only car of rank 1 should transmit messages to car of rank 2
     def transmit_message(self, message):
-        if self.rank != "1":
-            return "cannot transmit message from a non-rank 1 car"
-        else:
-            self.device_transmitter.send_data_broadcast(message)
-    
+        self.device_transmitter.send_data_broadcast(message)
+        self.need_transmit = False
+
     # car of rank 1 can only receive from traffic light
     # car of rank 2 can only receive from car of rank 1
     def receive_message(self):
+        self.need_transmit = True
+        self.msg_data = self.device_receiver.read_data().data
         return self.device_receiver.read_data()
 
+    def get_need_transmit(self):
+        return self.need_transmit
+
+    def get_msg_data(self):
+        return self.msg_data
+    
     def close_zigbee_receiver(self):
         self.device_receiver.close()
 
