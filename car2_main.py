@@ -1,8 +1,9 @@
 """
-car2_main.py is the main program used to receive messages from the other car on the network. 
-it will run three process concurrently (receiver, motor controller, and refresh speed)
+CAR2_main.py is the main program used to receive and transmit messages from other
+devices on the network. it will run three process concurrently (receiver, transmitter, and motor controller)
 
 the flow of communication goes like so:
+traffic light transmits message -> car 2 receives message
 car 2 transmits message -> car 2 receives message
 """
 
@@ -24,12 +25,13 @@ step_sequence = [[1,0,0,1],
                  [0,0,0,1]]
 
 car_object = Car(2,30)
+
 # main process for car 2 receiver
 def receiver():
     # program for the car 2 receiver using Zigbee device
     while True:
         # Receive data
-        print("CAR2_RECEIVER: Receiving data...")
+        #print("CAR2_RECEIVER: Receiving data...")
 
         try:
             global car_object
@@ -38,7 +40,7 @@ def receiver():
                 data = xbee_message.data
 
                 # setting msg data so that transmit can occur
-                car_object.set_msg_data(data)
+                car_object.set_msg_data(data.decode('UTF-8'))
                 sender = xbee_message.remote_device
                 timestamp = xbee_message.timestamp
                 msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
@@ -47,6 +49,8 @@ def receiver():
                 print("CAR2_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
         except Exception as e:
             print(e, "Error occurred while receiving message.")
+
+
 
 # main process for car 2 motor controller
 def motor_controller():
@@ -69,7 +73,7 @@ def motor_controller():
                 car_object.clean_up_motor_pins()
                 exit( 1 )
             time.sleep( car_object.step_sleep )
-       
+
         #car_object.clean_up_motor_pins()
         exit( 0 )
 
@@ -81,15 +85,14 @@ def refresh_speed():
     while True:
         global car_object
         if second_passed(curr_oldtime):
-            print("1 second passed")
+            #print("1 second passed")
             curr_oldtime = time.time()
         time.sleep(0.25)
         try:
-            #car_object.adjust_speed()
-            car_object.step_sleep += 0.001
+            car_object.adjust_speed()
         except Exception as e:
             print(e, "Error occurred while adjusting speed.")
-        print("0.25 seconds passed")
+        #print("0.25 seconds passed")
 
 # where the entire program starts
 if __name__ == "__main__":
@@ -114,7 +117,6 @@ if __name__ == "__main__":
         receiver_thread.join()
         motor_controller_thread.join()
         refresh_speed_thread.join()
-
 
     except KeyboardInterrupt:
         print("CAR2_MAIN: Program stopped by user.")
