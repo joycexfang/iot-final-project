@@ -25,8 +25,7 @@ step_sequence = [[1,0,0,1],
                  [0,0,0,1]]
 
 # main process for car 1 receiver
-def receiver(car_proxy):
-    car_object: Car = car_proxy.value
+def receiver(car_object):
     # program for the car 1 receiver using Zigbee device
     while True:
         # Receive data
@@ -50,8 +49,7 @@ def receiver(car_proxy):
             
 
 # main process for car 1 transmitter
-def transmitter(car_proxy):
-    car_object: Car = car_proxy.value
+def transmitter(car_object):
     while True:
         # Send data to another device
         print("CAR1_TRANSMITTER: Transmitting data...")
@@ -69,8 +67,7 @@ def transmitter(car_proxy):
             print()
 
 # main process for car 1 motor controller
-def motor_controller(car_proxy):
-    car_object: Car = car_proxy.value
+def motor_controller(car_object):
     while True:
         # Control a motor or other actuator
         print("CAR1_MOTOR: Controlling motor...")
