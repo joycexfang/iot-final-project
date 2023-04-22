@@ -18,9 +18,10 @@ With these three parameters, it's possible to control the speed at which the mot
 internetworking of things.
 
 Hardware used:
-1. Traffic Light - Zigbee Transmitter
+1. Traffic Light - 1 x Zigbee Transmitter
 2. Car 1 - 1 x Zigbee Transmitter, 1 x Zigbee Receiver
-3. Car 2 - 1 x Zigbee Transmitter, 1 x Zigbee Receiver
+3. Car 2 - 1 x Zigbee Receiver
+
 """
 
 from class_traffic_light import TrafficLight
