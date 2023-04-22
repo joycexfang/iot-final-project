@@ -64,7 +64,7 @@ def transmitter():
             car_object.transmit_message(message)
             try:
                 print("CAR1_TRANSMITTER: Will try transmitting message from car 1 to car 2:", message)
-                car_object.transmit_message(message)
+                car_object.transmit_message(message.encode('UTF-8 '))
             except Exception as e:
                 print(e, "CAR1_TRANSMITTER: No car is listening.")
             print()
@@ -106,6 +106,7 @@ def refresh_speed():
             curr_oldtime = time.time()
         time.sleep(0.25)
         try:
+            #car_object.adjust_speed()
             car_object.adjust_speed()
         except Exception as e:
             print(e, "Error occurred while adjusting speed.")
@@ -138,6 +139,7 @@ if __name__ == "__main__":
         transmitter_thread.join()
         motor_controller_thread.join()
         refresh_speed_thread.join()
+
 
     except KeyboardInterrupt:
         print("CAR1_MAIN: Program stopped by user.")

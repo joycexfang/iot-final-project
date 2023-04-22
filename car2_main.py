@@ -37,6 +37,7 @@ def receiver():
             global car_object
             xbee_message = car_object.receive_message()
             if xbee_message:
+                print("-xxxxxxxxxxxxxxxxx")
                 data = xbee_message.data
 
                 # setting msg data so that transmit can occur

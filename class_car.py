@@ -50,6 +50,7 @@ class Car:
 
         # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
         self.step_sleep = 0.001
+
         self.need_transmit = False
         self.msg_data = "green"
 
@@ -82,6 +83,9 @@ class Car:
     #     # print("changed self.curr_speed to:", self.curr_speed)
 
         light_state = self.msg_data
+        print("---------------");
+        print(light_state)
+        print("---------------");
         if(light_state == "green"):
 
             self.step_sleep = 0.001
