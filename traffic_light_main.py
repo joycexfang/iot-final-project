@@ -1,6 +1,7 @@
 """
 traffic_light_main.py is the main program used to transmit messages from the 
 traffic light to another device on the network (i.e. car of rank 1)
+pi@192
 """
 from class_traffic_light import TrafficLight
 import time
@@ -54,7 +55,7 @@ def main():
         transmit_message(self, traffic_light.get_state(), car_rank=1)
         time.sleep(10)
         GPIO.output(grn, GPIO.LOW)
-        time.sleep(1)
+        time.sleep(0.1)
 
         #Turn on yellow for 2 sec
         GPIO.output(yel, GPIO.HIGH)
@@ -62,7 +63,7 @@ def main():
         transmit_message(self, traffic_light.get_state(), car_rank=1)
         time.sleep(2)
         GPIO.output(yel, GPIO.LOW)
-        time.sleep(1)
+        time.sleep(0.1)
 
         #Turn on red for 10 sec
         GPIO.output(red, GPIO.HIGH)
@@ -70,7 +71,7 @@ def main():
         transmit_message(self, traffic_light.get_state(), car_rank=1)
         time.sleep(10)
         GPIO.output(red, GPIO.LOW)
-        time.sleep(1)
+        time.sleep(0.1)
 
     # Clean up GPIO pins
         GPIO.cleanup()
