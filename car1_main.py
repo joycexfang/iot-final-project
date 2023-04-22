@@ -7,7 +7,7 @@ traffic light transmits message -> car 1 receives message
 car 1 transmits message -> car 2 receives message
 """
 
-import multiprocessing
+import threading
 import time
 from class_car import Car
 import RPi.GPIO as GPIO
@@ -115,31 +115,28 @@ def refresh_speed(car_proxy):
 if __name__ == "__main__":
     try:
         # Create a shared proxy object for the car 1 object
-        manager = multiprocessing.Manager()
         print("CAR1_MAIN: Creating Car 1...")
-        car1_proxy = manager.Value("Car1", Car(1, 30))
+        car1 = Car(1, 30)
 
-        # Create processes for each function
-        receiver_process = multiprocessing.Process(target=receiver, args=(car1_proxy,))
-        transmitter_process = multiprocessing.Process(target=transmitter, args=(car1_proxy,))
-        motor_controller_process = multiprocessing.Process(target=motor_controller, args=(car1_proxy,))
-        refresh_speed_process = multiprocessing.Process(target=refresh_speed, args=(car1_proxy,))
+        # Create threads for each function
+        receiver_thread = threading.Thread(target=receiver, args=(car1,))
+        transmitter_thread = threading.Thread(target=transmitter, args=(car1,))
+        motor_controller_thread = threading.Thread(target=motor_controller, args=(car1,))
+        refresh_speed_thread = threading.Thread(target=refresh_speed, args=(car1,))
 
-        # Start all processes
-        receiver_process.start()
-        transmitter_process.start()
-        motor_controller_process.start()
-        refresh_speed_process.start()
-
-        # Wait for all processes to finish
-        receiver_process.join()
-        transmitter_process.join()
-        motor_controller_process.join()
-        refresh_speed_process.join()
+        # Start all threads
+        receiver_thread.setDaemon(True)
+        transmitter_thread.setDaemon(True)
+        motor_controller_thread.setDaemon(True)
+        refresh_speed_thread.setDaemon(True)
+        receiver_thread.start()
+        transmitter_thread.start()
+        motor_controller_thread.start()
+        refresh_speed_thread.start()
 
     except KeyboardInterrupt:
         print("CAR1_MAIN: Program stopped by user.")
         print("CAR1_MAIN: closing zigbee receiver AND transmitter, and cleaning up motor pins")
-        car1_proxy.value.close_zigbee_receiver()
-        car1_proxy.value.close_zigbee_transmitter()
-        car1_proxy.value.clean_up_motor_pins()
+        car1.value.close_zigbee_receiver()
+        car1.value.close_zigbee_transmitter()
+        car1.value.clean_up_motor_pins()
