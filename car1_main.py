@@ -93,9 +93,8 @@ def motor_controller(car_object):
 def second_passed(oldepoch):
     return time.time() - oldepoch >= 1
 
-def refresh_speed(car_proxy):
+def refresh_speed(car_object):
     curr_oldtime = time.time()
-    car_object: Car = car_proxy.value
     while True:
         if second_passed(curr_oldtime):
             print("1 second passed")
@@ -111,7 +110,7 @@ def refresh_speed(car_proxy):
 # where the entire program starts
 if __name__ == "__main__":
     try:
-        # Create a shared proxy object for the car 1 object
+        # Create a shared object for the car 1 object
         print("CAR1_MAIN: Creating Car 1...")
         car1 = Car(1, 30)
 
