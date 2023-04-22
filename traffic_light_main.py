@@ -1,3 +1,7 @@
+"""
+traffic_light_main.py is the main program used to transmit messages from the 
+traffic light to another device on the network (i.e. car of rank 1)
+"""
 from class_traffic_light import TrafficLight
 import time
 

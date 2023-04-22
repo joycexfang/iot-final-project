@@ -1,3 +1,8 @@
+"""
+class_traffic_ligh.py is for the class TrafficLight. as TrafficLigh has multiple attributes
+such as its state ("red", "yellow", "green") and its Zigbee device for transmitting messages
+"""
+
 from digi.xbee.devices import XBeeDevice
 """
 Modify the device_url based on your port name

@@ -1,3 +1,11 @@
+"""
+class_car.py is for the class Car. as Car has multiple attributes such as rank,
+max speed, curr speed, zigbee device/(s), motor pins, motor step counter, and step sleep
+
+the Car class can calculate and control the speed of the car AND it can receive and
+transmit messages from/to other devices on the network
+"""
+
 import math # import math library
 import time # import the time module
 from digi.xbee.devices import XBeeDevice
