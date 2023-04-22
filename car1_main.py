@@ -126,10 +126,17 @@ if __name__ == "__main__":
         transmitter_thread.setDaemon(True)
         motor_controller_thread.setDaemon(True)
         refresh_speed_thread.setDaemon(True)
+
         receiver_thread.start()
         transmitter_thread.start()
         motor_controller_thread.start()
         refresh_speed_thread.start()
+
+        receiver_thread.join()
+        transmitter_thread.join()
+        motor_controller_thread.join()
+        refresh_speed_thread.join()
+
 
     except KeyboardInterrupt:
         print("CAR1_MAIN: Program stopped by user.")
