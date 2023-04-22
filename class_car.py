@@ -37,7 +37,7 @@ class Car:
         # Instantiate a local XBee node FOR RECEIVER.
         self.device_receiver = XBeeDevice(device_url_receiver, 9600)
         self.device_receiver.open()
-        
+
         # car of rank 1 also has a transmitter Zigbee device
         if self.position_rank == 1:
             # Instantiate a local XBee node FOR TRANSMITTER.
@@ -47,12 +47,11 @@ class Car:
         self.initialize_motor_pins()
         self.motor_pins = [in1,in2,in3,in4]
         self.motor_step_counter = 0
-        
+
         # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
         self.step_sleep = 0.001
-
         self.need_transmit = False
-        self.msg_data = ""
+        self.msg_data = "green"
 
     def __str__(self):
         return "CAR self.position_rank: {} \t self.max_speed: {} \t self.curr_speed: {}".format(self.position_rank, self.max_speed, self.curr_speed)
@@ -70,7 +69,7 @@ class Car:
         GPIO.output( in2, GPIO.LOW )
         GPIO.output( in3, GPIO.LOW )
         GPIO.output( in4, GPIO.LOW )
-    
+
     def clean_up_motor_pins(self):
         GPIO.output( in1, GPIO.LOW )
         GPIO.output( in2, GPIO.LOW )
@@ -78,9 +77,18 @@ class Car:
         GPIO.output( in4, GPIO.LOW )
         GPIO.cleanup()
 
-    # def adjust_speed(self):
+    def adjust_speed(self):
     #     # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
     #     # print("changed self.curr_speed to:", self.curr_speed)
+
+        light_state = self.msg_data
+        if(light_state == "green"):
+
+            self.step_sleep = 0.001
+        elif(light_state == "yellow"):
+            self.step_sleep += 0.5*((1-(1/(math.exp(1.5*(self.position_rank/2)))))/65)
+        elif(light_state == "red"):
+            self.step_sleep += ((1-(1/(math.exp(1.5*(self.position_rank/2)))))/65)
 
     # def calculate_speed(self, light_color):
     #     return self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.position_rank))) * 1.2
@@ -93,7 +101,7 @@ class Car:
     # car of rank 1 can only receive from traffic light
     # car of rank 2 can only receive from car of rank 1
     def receive_message(self):
-        self.need_transmit = True            
+        self.need_transmit = True
         return self.device_receiver.read_data()
 
     def set_msg_data(self, msg):
@@ -104,7 +112,7 @@ class Car:
 
     def get_msg_data(self):
         return self.msg_data
-    
+
     def close_zigbee_receiver(self):
         self.device_receiver.close()
 
