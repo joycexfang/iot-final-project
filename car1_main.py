@@ -96,7 +96,7 @@ def motor_controller():
 def second_passed(oldepoch):
     return time.time() - oldepoch >= 1
 
-def refresh_speed(car_object):
+def refresh_speed():
     curr_oldtime = time.time()
     while True:
         global car_object
