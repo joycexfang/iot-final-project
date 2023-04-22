@@ -5,6 +5,11 @@ from digi.xbee.devices import XBeeDevice
 #!/usr/bin/python3
 import RPi.GPIO as GPIO
 
+in1 = 17
+in2 = 18
+in3 = 27
+in4 = 22
+
 """
 Modify the device_url based on your port name
 For Windows, go to Device Manage > Ports (typically COM7)
@@ -20,9 +25,15 @@ class Car:
         self.max_speed = max_speed
         self.curr_speed = 0
 
-        # Instantiate a local XBee node.
-        self.device = XBeeDevice(device_url, 9600)
-        self.device.open()
+        # Instantiate a local XBee node FOR RECEIVER.
+        self.device_receiver = XBeeDevice(device_url, 9600)
+        self.device_receiver.open()
+        
+        # car of rank 1 also has a transmitter Zigbee device
+        if self.rank == 1:
+            # Instantiate a local XBee node FOR TRANSMITTER.
+            self.device_transmitter = XBeeDevice(device_url, 9600)
+            self.device_transmitter.open()
 
         self.GPIO_init()
         self.motor_pins = [in1,in2,in3,in4]
@@ -82,13 +93,16 @@ class Car:
         if self.rank != "1":
             return "cannot transmit message from a non-rank 1 car"
         else:
-            self.device.send_data_broadcast(message)
+            self.device_transmitter.send_data_broadcast(message)
 
     
     # car of rank 1 can only receive from traffic light
     # car of rank 2 can only receive from car of rank 1
     def receive_message(self):
-        return self.device.read_data()
+        return self.device_receiver.read_data()
 
-    def close_zigbee(self):
-        self.device.close()
+    def close_zigbee_receiver(self):
+        self.device_receiver.close()
+
+    def close_zigbee_transmitter(self):
+        self.device_transmitter.close()

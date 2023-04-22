@@ -41,10 +41,10 @@ def main():
             traffic_light.set_state(message)
 
             print("Transmitting random traffic_light_state:", message)
-            # traffic_light.transmit_message(message)
+            traffic_light.transmit_message(message)
             try: 
                 print("Will try transmitting random traffic_light_state:", message)
-                # traffic_light.transmit_message(message)
+                traffic_light.transmit_message(message)
             except Exception as e:
                 print(e, "No car is listening.")
             
@@ -57,7 +57,7 @@ def main():
         print('Keyboard was interrupted!')
     
     print("Closing traffic light zigbee")
-    # traffic_light.close_zigbee()
+    traffic_light.close_zigbee()
 
 if __name__ == "__main__":
     main()

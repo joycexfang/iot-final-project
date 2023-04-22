@@ -1,12 +1,7 @@
 import multiprocessing
 import time
-from class_car_receiver import Car
+from class_car import Car
 import RPi.GPIO as GPIO
-
-in1 = 17
-in2 = 18
-in3 = 27
-in4 = 22
 
 step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
 
@@ -22,6 +17,7 @@ step_sequence = [[1,0,0,1],
                  [0,0,1,1],
                  [0,0,0,1]]
 
+# main process for car 1 receiver
 def receiver(car_proxy):
     car_object: Car = car_proxy.value
     # program for the car 1 receiver using Zigbee device
@@ -36,12 +32,14 @@ def receiver(car_proxy):
             msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
             print(msg)
 
+# main process for car 1 transmitter
 def transmitter(car_proxy):
     car_object: Car = car_proxy.value
     while True:
         # Send data to another device
         print("Transmitting data...")
       
+# main process for car 1 motor controller
 def motor_controller(car_proxy):
     car_object: Car = car_proxy.value
     while True:
@@ -70,6 +68,7 @@ def motor_controller(car_proxy):
         car_object.cleanup()
         exit( 0 )
 
+# where the entire program starts
 if __name__ == "__main__":
     # Create a shared proxy object for the car 1 object
     manager = multiprocessing.Manager()

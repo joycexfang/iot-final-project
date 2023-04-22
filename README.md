@@ -9,12 +9,12 @@ pip3 install digi-xbee
 
 # how to run traffic light transmitter
 
-python3 main.py
+python3 traffic_light_main.py
 
-# how to run car 1 receiver
+# how to run car 1
 
-python3 car1_receiver.py
+python3 car1_main.py
 
-# how to run car 1 transmitter
+# how to run car 2
 
-python3 car1_transmitter.py
+python3 car2_main.py
