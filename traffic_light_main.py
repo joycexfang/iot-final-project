@@ -1,29 +1,3 @@
-"""
-Vehicle and Traffic Light Network Interfacing Project
-By: Joyce Fang and Nobu Shibata
-
-There are three main entities in this application:
-1. Traffic Light with three states:
-    2 = Red
-    1 = Yellow
-    0 = Green
-2. Car with Rank Number = 1 (not starting from index 0 for ease of understandability)
-3. Car with Rank Number = 2
-
-The purpose of this application is to limit the speed of each car (represented as a stepper motor)
-depending on three parameters: the car object being controlled (contains the rank and the current speed), 
-the current state of the traffic light.
-
-With these three parameters, it's possible to control the speed at which the motor is running using
-internetworking of things.
-
-Hardware used:
-1. Traffic Light - 1 x Zigbee Transmitter
-2. Car 1 - 1 x Zigbee Transmitter, 1 x Zigbee Receiver
-3. Car 2 - 1 x Zigbee Receiver
-
-"""
-
 from class_traffic_light import TrafficLight
 import time
 
