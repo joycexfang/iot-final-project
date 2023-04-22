@@ -18,11 +18,8 @@ def main():
             
             print("Setting traffic light state:", message)
             traffic_light.set_state(message)
-
-            print("Transmitting traffic_light_state:", message)
-            traffic_light.transmit_message(message)
             try: 
-                print("Will try transmitting traffic_light_state:", message)
+                print("Transmitting traffic_light_state:", message)
                 traffic_light.transmit_message(message)
             except Exception as e:
                 print(e, "No car is listening.")
@@ -33,7 +30,7 @@ def main():
             print()
     
     except KeyboardInterrupt:
-        print('Keyboard was interrupted!')
+        print('Keyboard interrupt detected. Exiting program...')
     
     print("Closing traffic light zigbee")
     traffic_light.close_zigbee()
