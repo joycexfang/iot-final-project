@@ -11,7 +11,7 @@ For Mac, do ‘ls /dev/cu.*’ in terminal (typically /dev/cu.usbserial-00000000
 For RPi, do ‘ls /dev/ttyUSB*’ in terminal (typically /dev/ttyUSB0)
 """
 
-device_url = "/dev/cu.usbserial-00000000"
+device_url = "/dev/ttyUSB0"
 
 class TrafficLight:
     def __init__(self, initial_state):

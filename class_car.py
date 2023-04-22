@@ -24,7 +24,8 @@ For Windows, go to Device Manage > Ports (typically COM7)
 For Mac, do ‘ls /dev/cu.*’ in terminal (typically /dev/cu.usbserial-00000000)
 For RPi, do ‘ls /dev/ttyUSB*’ in terminal (typically /dev/ttyUSB0)
 """
-device_url = "/dev/cu.usbserial-00000000"
+device_url_receiver = "/dev/ttyUSB0"
+device_url_transmitter = "/dev/ttyUSB1"
 tracking = time.time()
 
 class Car:
@@ -34,13 +35,13 @@ class Car:
         self.curr_speed = 0
 
         # Instantiate a local XBee node FOR RECEIVER.
-        self.device_receiver = XBeeDevice(device_url, 9600)
+        self.device_receiver = XBeeDevice(device_url_receiver, 9600)
         self.device_receiver.open()
         
         # car of rank 1 also has a transmitter Zigbee device
         if self.position_rank == 1:
             # Instantiate a local XBee node FOR TRANSMITTER.
-            self.device_transmitter = XBeeDevice(device_url, 9600)
+            self.device_transmitter = XBeeDevice(device_url_transmitter, 9600)
             self.device_transmitter.open()
 
         self.initialize_motor_pins()
