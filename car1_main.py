@@ -31,15 +31,23 @@ def receiver(car_proxy):
     while True:
         # Receive data
         print("CAR1_RECEIVER: Receiving data...")
-        xbee_message = car_object.receive_message()
-        if xbee_message:
-            data = xbee_message.data
-            sender = xbee_message.remote_device
-            timestamp = xbee_message.timestamp
-            msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
-            print(msg)
 
-            print("CAR1_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
+        try:
+            xbee_message = car_object.receive_message()
+            if xbee_message:
+                data = xbee_message.data
+
+                # setting msg data so that transmit can occur
+                car_object.set_msg_data(data)
+                sender = xbee_message.remote_device
+                timestamp = xbee_message.timestamp
+                msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
+                print(msg)
+
+                print("CAR1_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
+        except Exception as e:
+            print(e, "Error occurred while receiving message.")
+            
 
 # main process for car 1 transmitter
 def transmitter(car_proxy):
@@ -78,35 +86,59 @@ def motor_controller(car_proxy):
                 car_object.motor_step_counter = (car_object.motor_step_counter + 1) % 8
             else: # defensive programming
                 print( "CAR1_MOTOR: uh oh... direction should *always* be either True or False" )
-                car_object.cleanup()
+                car_object.clean_up_motor_pins()
                 exit( 1 )
             time.sleep( car_object.step_sleep )
        
-        car_object.cleanup()
+        car_object.clean_up_motor_pins()
         exit( 0 )
+
+def second_passed(oldepoch):
+    return time.time() - oldepoch >= 1
+
+def refresh_speed(car_proxy):
+    curr_oldtime = time.time()
+    car_object: Car = car_proxy.value
+    while True:
+        if second_passed(curr_oldtime):
+            print("1 second passed")
+            curr_oldtime = time.time()
+        time.sleep(0.25)
+        try:
+            car_object.adjust_speed()
+        except Exception as e:
+            print(e, "Error occurred while adjusting speed.")
+        print("0.25 seconds passed")
 
 # where the entire program starts
 if __name__ == "__main__":
-    # Create a shared proxy object for the car 1 object
-    manager = multiprocessing.Manager()
-    print("CAR1_MAIN: Creating Car 1...")
-    car1_proxy = manager.Value("Car1", Car(1, 30))
+    try:
+        # Create a shared proxy object for the car 1 object
+        manager = multiprocessing.Manager()
+        print("CAR1_MAIN: Creating Car 1...")
+        car1_proxy = manager.Value("Car1", Car(1, 30))
 
-    # Create three processes for each function
-    receiver_process = multiprocessing.Process(target=receiver, args=(car1_proxy,))
-    transmitter_process = multiprocessing.Process(target=transmitter, args=(car1_proxy,))
-    motor_controller_process = multiprocessing.Process(target=motor_controller, args=(car1_proxy,))
+        # Create processes for each function
+        receiver_process = multiprocessing.Process(target=receiver, args=(car1_proxy,))
+        transmitter_process = multiprocessing.Process(target=transmitter, args=(car1_proxy,))
+        motor_controller_process = multiprocessing.Process(target=motor_controller, args=(car1_proxy,))
+        refresh_speed_process = multiprocessing.Process(target=refresh_speed, args=(car1_proxy,))
 
-    # Start all three processes
-    receiver_process.start()
-    transmitter_process.start()
-    motor_controller_process.start()
+        # Start all processes
+        receiver_process.start()
+        transmitter_process.start()
+        motor_controller_process.start()
+        refresh_speed_process.start()
 
-    # Wait for all three processes to finish
-    receiver_process.join()
-    transmitter_process.join()
-    motor_controller_process.join()
+        # Wait for all processes to finish
+        receiver_process.join()
+        transmitter_process.join()
+        motor_controller_process.join()
+        refresh_speed_process.join()
 
-    print("CAR1_MAIN: Closing car 1 zigbee receiver AND transmitter")
-    car1_proxy.value.close_zigbee_receiver()
-    car1_proxy.value.close_zigbee_transmitter()
+    except KeyboardInterrupt:
+        print("CAR1_MAIN: Program stopped by user.")
+        print("CAR1_MAIN: closing zigbee receiver AND transmitter, and cleaning up motor pins")
+        car1_proxy.value.close_zigbee_receiver()
+        car1_proxy.value.close_zigbee_transmitter()
+        car1_proxy.value.clean_up_motor_pins()
