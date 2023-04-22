@@ -84,3 +84,17 @@ Car 2 RPi: `pi@191.168.1.127`
 3. run the following command on local machine:
 
 `scp <name_of_this_project_directory> -r username@<ip address>:/home/{username}`
+
+# Joyce's Notes
+
+CAR 1:
+
+scp iot-final-project -r shibata@191.168.1.19:/home/shibata
+
+TRAFFIC LIGHT:
+
+scp iot-final-project -r pi@191.168.1.157:/home/pi
+
+CAR 2:
+
+scp iot-final-project -r pi@191.168.1.127:/home/pi
