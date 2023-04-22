@@ -59,12 +59,12 @@ def transmitter():
         global car_object
         # check when car 1 needs to transmit data
         if car_object.get_need_transmit():
-            message = car_object.get_msg_data
+            message = car_object.get_msg_data()
             print("CAR1_TRANSMITTER: Transmitting message:", message)
             car_object.transmit_message(message)
             try:
                 print("CAR1_TRANSMITTER: Will try transmitting message from car 1 to car 2:", message)
-                car_object.transmit_message(message.encode('UTF-8 '))
+                car_object.transmit_message(message)
             except Exception as e:
                 print(e, "CAR1_TRANSMITTER: No car is listening.")
             print()
@@ -92,7 +92,9 @@ def motor_controller():
             time.sleep( car_object.step_sleep )
 
         #car_object.clean_up_motor_pins()
-        exit( 0 )
+
+    exit( 0 )
+
 
 def second_passed(oldepoch):
     return time.time() - oldepoch >= 1
@@ -102,12 +104,13 @@ def refresh_speed():
     while True:
         global car_object
         if second_passed(curr_oldtime):
-            #print("1 second passed")
+            print("1 second passed")
             curr_oldtime = time.time()
         time.sleep(0.25)
         try:
             #car_object.adjust_speed()
             car_object.adjust_speed()
+            print(car_object.step_sleep)
         except Exception as e:
             print(e, "Error occurred while adjusting speed.")
         #print("0.25 seconds passed")

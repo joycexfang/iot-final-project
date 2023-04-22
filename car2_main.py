@@ -37,7 +37,7 @@ def receiver():
             global car_object
             xbee_message = car_object.receive_message()
             if xbee_message:
-                print("-xxxxxxxxxxxxxxxxx")
+
                 data = xbee_message.data
 
                 # setting msg data so that transmit can occur
@@ -76,7 +76,7 @@ def motor_controller():
             time.sleep( car_object.step_sleep )
 
         #car_object.clean_up_motor_pins()
-        exit( 0 )
+    exit( 0 )
 
 def second_passed(oldepoch):
     return time.time() - oldepoch >= 1
@@ -88,9 +88,12 @@ def refresh_speed():
         if second_passed(curr_oldtime):
             #print("1 second passed")
             curr_oldtime = time.time()
+            print(car_object.msg_data)
+
         time.sleep(0.25)
         try:
             car_object.adjust_speed()
+            print(car_object.step_sleep)
         except Exception as e:
             print(e, "Error occurred while adjusting speed.")
         #print("0.25 seconds passed")
