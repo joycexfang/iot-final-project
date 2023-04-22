@@ -74,9 +74,9 @@ def main():
         time.sleep(0.1)
 
     # Clean up GPIO pins
-        GPIO.cleanup()
-        print("Closing traffic light zigbee")
-        traffic_light.close_zigbee()
+    GPIO.cleanup()
+    print("Closing traffic light zigbee")
+    traffic_light.close_zigbee()
 
 if __name__ == "__main__":
     main()
