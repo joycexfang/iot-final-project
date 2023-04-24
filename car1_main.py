@@ -46,7 +46,7 @@ def receiver():
                 msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
                 print(msg)
 
-                print("CAR1_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
+                # print("CAR1_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
         except Exception as e:
             print(e, "Error occurred while receiving message.")
 
