@@ -51,7 +51,6 @@ class Car:
         # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
         self.step_sleep = 0.001
 
-        # self.need_transmit = False
         self.msg_data = "green"
 
     def __str__(self):
@@ -79,8 +78,7 @@ class Car:
         GPIO.cleanup()
 
     def adjust_speed(self):
-    #     # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
-    #     # print("changed self.curr_speed to:", self.curr_speed)
+        # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
 
         light_state = self.msg_data
         print("---------------");
@@ -94,25 +92,17 @@ class Car:
         elif(light_state == "red"):
             self.step_sleep += ((1-(1/(math.exp(1.5*(self.position_rank/2)))))/65)
 
-    # def calculate_speed(self, light_color):
-    #     return self.curr_speed - (light_color) * (1 - (1/math.pow(math.e, 1.5*self.position_rank))) * 1.2
-
     # only car of rank 1 should transmit messages to car of rank 2
     def transmit_message(self, message):
         self.device_transmitter.send_data_broadcast(message)
-        # self.need_transmit = False
 
     # car of rank 1 can only receive from traffic light
     # car of rank 2 can only receive from car of rank 1
     def receive_message(self):
-        # self.need_transmit = True
         return self.device_receiver.read_data()
 
     def set_msg_data(self, msg):
         self.msg_data = msg
-
-    # def get_need_transmit(self):
-    #     return self.need_transmit
 
     def get_msg_data(self):
         return self.msg_data
