@@ -51,7 +51,7 @@ class Car:
         # careful lowering this, at some point you run into the mechanical limitation of how quick your motor can move
         self.step_sleep = 0.001
 
-        self.need_transmit = False
+        # self.need_transmit = False
         self.msg_data = "green"
 
     def __str__(self):
@@ -100,19 +100,19 @@ class Car:
     # only car of rank 1 should transmit messages to car of rank 2
     def transmit_message(self, message):
         self.device_transmitter.send_data_broadcast(message)
-        self.need_transmit = False
+        # self.need_transmit = False
 
     # car of rank 1 can only receive from traffic light
     # car of rank 2 can only receive from car of rank 1
     def receive_message(self):
-        self.need_transmit = True
+        # self.need_transmit = True
         return self.device_receiver.read_data()
 
     def set_msg_data(self, msg):
         self.msg_data = msg
 
-    def get_need_transmit(self):
-        return self.need_transmit
+    # def get_need_transmit(self):
+    #     return self.need_transmit
 
     def get_msg_data(self):
         return self.msg_data

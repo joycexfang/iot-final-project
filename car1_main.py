@@ -46,28 +46,37 @@ def receiver():
                 msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
                 print(msg)
 
+                # print("CAR1_TRANSMITTER: Transmitting message:", msg)
+                car_object.transmit_message(data.decode('UTF-8'))
+                try:
+                    print("CAR1_TRANSMITTER: Attempting to transmit message from car 1 to car 2:", data.decode('UTF-8'))
+                    car_object.transmit_message(data.decode('UTF-8'))
+                except Exception as e:
+                    print(e, "CAR1_TRANSMITTER: No car is listening.")
+                print()
+
                 # print("CAR1_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
         except Exception as e:
             print(e, "Error occurred while receiving message.")
 
 
-# main process for car 1 transmitter
-def transmitter():
-    while True:
-        # Send data to another device
-        print("CAR1_TRANSMITTER: Transmitting data...")
-        global car_object
-        # check when car 1 needs to transmit data
-        if car_object.get_need_transmit():
-            message = car_object.get_msg_data()
-            print("CAR1_TRANSMITTER: Transmitting message:", message)
-            car_object.transmit_message(message)
-            try:
-                print("CAR1_TRANSMITTER: Will try transmitting message from car 1 to car 2:", message)
-                car_object.transmit_message(message)
-            except Exception as e:
-                print(e, "CAR1_TRANSMITTER: No car is listening.")
-            print()
+# # main process for car 1 transmitter
+# def transmitter():
+#     while True:
+#         # Send data to another device
+#         print("CAR1_TRANSMITTER: Transmitting data...")
+#         global car_object
+#         # check when car 1 needs to transmit data
+#         if car_object.get_need_transmit():
+#             message = car_object.get_msg_data()
+#             print("CAR1_TRANSMITTER: Transmitting message:", message)
+#             car_object.transmit_message(message)
+#             try:
+#                 print("CAR1_TRANSMITTER: Will try transmitting message from car 1 to car 2:", message)
+#                 car_object.transmit_message(message)
+#             except Exception as e:
+#                 print(e, "CAR1_TRANSMITTER: No car is listening.")
+#             print()
 
 # main process for car 1 motor controller
 def motor_controller():
@@ -123,23 +132,23 @@ if __name__ == "__main__":
 
         # Create threads for each function
         receiver_thread = threading.Thread(target=receiver)
-        transmitter_thread = threading.Thread(target=transmitter)
+        # transmitter_thread = threading.Thread(target=transmitter)
         motor_controller_thread = threading.Thread(target=motor_controller)
         refresh_speed_thread = threading.Thread(target=refresh_speed)
 
         # Start all threads
         receiver_thread.setDaemon(True)
-        transmitter_thread.setDaemon(True)
+        # transmitter_thread.setDaemon(True)
         motor_controller_thread.setDaemon(True)
         refresh_speed_thread.setDaemon(True)
 
         receiver_thread.start()
-        transmitter_thread.start()
+        # transmitter_thread.start()
         motor_controller_thread.start()
         refresh_speed_thread.start()
 
         receiver_thread.join()
-        transmitter_thread.join()
+        # transmitter_thread.join()
         motor_controller_thread.join()
         refresh_speed_thread.join()
 
