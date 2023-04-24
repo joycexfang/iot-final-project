@@ -69,11 +69,11 @@ Hardware used:
 
 ## IP Addresses
 
-Traffic Light RPi: `pi@191.168.1.157`
+Traffic Light RPi: `pi@192.168.1.158`
 
-Car 1 RPi: `shibata@191.168.1.19`
+Car 1 RPi: `shibata@192.168.1.19`
 
-Car 2 RPi: `pi@191.168.1.127`
+Car 2 RPi: `pi@192.168.1.127`
 
 # Instructions to SCP files from local machine to RPi
 
@@ -89,12 +89,12 @@ Car 2 RPi: `pi@191.168.1.127`
 
 CAR 1:
 
-scp -r iot-final-project/ shibata@191.168.1.19:/home/shibata
+scp -r iot-final-project/ shibata@192.168.1.19:/home/shibata
 
 TRAFFIC LIGHT:
 
-scp -r iot-final-project/ pi@191.168.1.157:/home/pi
+scp -r iot-final-project/ pi@192.168.1.158:/home/pi
 
 CAR 2:
 
-scp -r iot-final-project/ pi@191.168.1.127:/home/pi
+scp -r iot-final-project/ pi@192.168.1.127:/home/pi
