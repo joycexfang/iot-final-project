@@ -13,29 +13,6 @@ def main():
     # create an instance of a traffic light object with an initial "red" light state,
     # a Zigbee Transmitter Device will also be instantiated here
     traffic_light = TrafficLight("red")
-    
-    """
-    try:
-        # program for the traffic light transmitter using Zigbee device
-        while True:
-            message = input("Enter traffic light color (red, yellow, or green): ")
-            
-            print("Setting traffic light state:", message)
-            traffic_light.set_state(message)
-            try: 
-                print("Transmitting traffic_light_state:", message)
-                traffic_light.transmit_message(message)
-            except Exception as e:
-                print(e, "No car is listening.")
-            
-            print("You selected the color traffic light: ", message)
-            time.sleep(0.01)
-
-            print()
-    
-    except KeyboardInterrupt:
-        print('Keyboard interrupt detected. Exiting program...')
-    """
 
     grn = 14
     yel = 15

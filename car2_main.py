@@ -31,23 +31,17 @@ def receiver():
     # program for the car 2 receiver using Zigbee device
     while True:
         # Receive data
-        #print("CAR2_RECEIVER: Receiving data...")
-
         try:
             global car_object
             xbee_message = car_object.receive_message()
             if xbee_message:
-
                 data = xbee_message.data
-
                 # setting msg data so that transmit can occur
                 car_object.set_msg_data(data.decode('UTF-8'))
                 sender = xbee_message.remote_device
                 timestamp = xbee_message.timestamp
                 msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
                 print(msg)
-
-                # print("CAR2_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
         except Exception as e:
             print(e, "Error occurred while receiving message.")
 
@@ -86,7 +80,6 @@ def refresh_speed():
     while True:
         global car_object
         if second_passed(curr_oldtime):
-            #print("1 second passed")
             curr_oldtime = time.time()
             print(car_object.msg_data)
 
@@ -96,7 +89,6 @@ def refresh_speed():
             print(car_object.step_sleep)
         except Exception as e:
             print(e, "Error occurred while adjusting speed.")
-        #print("0.25 seconds passed")
 
 # where the entire program starts
 if __name__ == "__main__":

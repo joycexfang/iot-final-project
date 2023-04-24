@@ -26,13 +26,11 @@ step_sequence = [[1,0,0,1],
 
 car_object = Car(1,30)
 
-# main process for car 1 receiver
+# main thread for car 1 receiver
 def receiver():
     # program for the car 1 receiver using Zigbee device
     while True:
         # Receive data
-        #print("CAR1_RECEIVER: Receiving data...")
-
         try:
             global car_object
             xbee_message = car_object.receive_message()
@@ -46,7 +44,6 @@ def receiver():
                 msg = """{time} from {sender}\n{data}""".format(time=timestamp, sender=sender, data=data.decode('UTF8'))
                 print(msg)
 
-                # print("CAR1_TRANSMITTER: Transmitting message:", msg)
                 car_object.transmit_message(data.decode('UTF-8'))
                 try:
                     print("CAR1_TRANSMITTER: Attempting to transmit message from car 1 to car 2:", data.decode('UTF-8'))
@@ -54,31 +51,10 @@ def receiver():
                 except Exception as e:
                     print(e, "CAR1_TRANSMITTER: No car is listening.")
                 print()
-
-                # print("CAR1_RECEIVER: TODO: now that i've received data, need to change speed, have the motor controller change that speed, and transmit to next car")
         except Exception as e:
             print(e, "Error occurred while receiving message.")
 
-
-# # main process for car 1 transmitter
-# def transmitter():
-#     while True:
-#         # Send data to another device
-#         print("CAR1_TRANSMITTER: Transmitting data...")
-#         global car_object
-#         # check when car 1 needs to transmit data
-#         if car_object.get_need_transmit():
-#             message = car_object.get_msg_data()
-#             print("CAR1_TRANSMITTER: Transmitting message:", message)
-#             car_object.transmit_message(message)
-#             try:
-#                 print("CAR1_TRANSMITTER: Will try transmitting message from car 1 to car 2:", message)
-#                 car_object.transmit_message(message)
-#             except Exception as e:
-#                 print(e, "CAR1_TRANSMITTER: No car is listening.")
-#             print()
-
-# main process for car 1 motor controller
+# main thread for car 1 motor controller
 def motor_controller():
     while True:
         # Control a motor or other actuator
@@ -101,7 +77,6 @@ def motor_controller():
             time.sleep( car_object.step_sleep )
 
         #car_object.clean_up_motor_pins()
-
     exit( 0 )
 
 
@@ -117,12 +92,10 @@ def refresh_speed():
             curr_oldtime = time.time()
         time.sleep(0.25)
         try:
-            #car_object.adjust_speed()
             car_object.adjust_speed()
             print(car_object.step_sleep)
         except Exception as e:
             print(e, "Error occurred while adjusting speed.")
-        #print("0.25 seconds passed")
 
 # where the entire program starts
 if __name__ == "__main__":
