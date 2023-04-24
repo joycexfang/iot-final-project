@@ -37,7 +37,7 @@ def main():
         print('Keyboard interrupt detected. Exiting program...')
     """
 
-    grn = 13
+    grn = 14
     yel = 15
     red = 18
     # Set up GPIO mode and pins
