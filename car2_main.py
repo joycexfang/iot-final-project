@@ -69,9 +69,6 @@ def motor_controller():
                 exit( 1 )
             time.sleep( car_object.step_sleep )
 
-        #car_object.clean_up_motor_pins()
-    exit( 0 )
-
 def second_passed(oldepoch):
     return time.time() - oldepoch >= 1
 

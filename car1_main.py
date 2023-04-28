@@ -76,10 +76,6 @@ def motor_controller():
                 exit( 1 )
             time.sleep( car_object.step_sleep )
 
-        #car_object.clean_up_motor_pins()
-    exit( 0 )
-
-
 def second_passed(oldepoch):
     return time.time() - oldepoch >= 1
 
@@ -105,23 +101,19 @@ if __name__ == "__main__":
 
         # Create threads for each function
         receiver_thread = threading.Thread(target=receiver)
-        # transmitter_thread = threading.Thread(target=transmitter)
         motor_controller_thread = threading.Thread(target=motor_controller)
         refresh_speed_thread = threading.Thread(target=refresh_speed)
 
         # Start all threads
         receiver_thread.setDaemon(True)
-        # transmitter_thread.setDaemon(True)
         motor_controller_thread.setDaemon(True)
         refresh_speed_thread.setDaemon(True)
 
         receiver_thread.start()
-        # transmitter_thread.start()
         motor_controller_thread.start()
         refresh_speed_thread.start()
 
         receiver_thread.join()
-        # transmitter_thread.join()
         motor_controller_thread.join()
         refresh_speed_thread.join()
 

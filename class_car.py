@@ -81,9 +81,9 @@ class Car:
         # in one whole second, there will be number of "refreshes" to either limit the speed or increase the speed
 
         light_state = self.msg_data
-        print("---------------");
+        print("---------------")
         print(light_state)
-        print("---------------");
+        print("---------------")
         if(light_state == "green"):
 
             self.step_sleep = 0.001
