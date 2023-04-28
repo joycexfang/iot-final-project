@@ -1,6 +1,6 @@
 """
 car1_main.py is the main program used to receive and transmit messages from other
-devices on the network. it will run three process concurrently (receiver, transmitter, and motor controller)
+devices on the network. it will run three process concurrently (receiver/transmitter, motor controller, refresh speed)
 
 the flow of communication goes like so:
 traffic light transmits message -> car 1 receives message

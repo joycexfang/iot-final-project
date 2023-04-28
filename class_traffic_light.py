@@ -1,5 +1,5 @@
 """
-class_traffic_ligh.py is for the class TrafficLight. as TrafficLigh has multiple attributes
+class_traffic_light.py is for the class TrafficLight. as TrafficLight has multiple attributes
 such as its state ("red", "yellow", "green") and its Zigbee device for transmitting messages
 """
 
