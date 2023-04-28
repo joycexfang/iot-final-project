@@ -2,6 +2,8 @@
 
 ECSE 4660 - Internetworking of Things
 
+April 2023
+
 By: Joyce Fang and Nobu Shibata
 
 There are three main entities in this application:
@@ -85,7 +87,7 @@ Car 2 RPi: `pi@192.168.1.127`
 
 `scp <name_of_this_project_directory> -r username@<ip address>:/home/{username}`
 
-# SCP Notes
+# SCP Command Notes
 
 CAR 1:
 
