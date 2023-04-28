@@ -76,9 +76,11 @@ def motor_controller():
                 exit( 1 )
             time.sleep( car_object.step_sleep )
 
+# returns a boolean that indicates whether a second has passed based on a parameter oldepoch
 def second_passed(oldepoch):
     return time.time() - oldepoch >= 1
 
+# a program that runs concurrently to adjust the speed of the car four times every one second
 def refresh_speed():
     curr_oldtime = time.time()
     while True:
