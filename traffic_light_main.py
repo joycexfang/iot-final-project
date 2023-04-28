@@ -1,8 +1,8 @@
 """
 traffic_light_main.py is the main program used to transmit messages from the 
 traffic light to another device on the network (i.e. car of rank 1)
-pi@192
 """
+
 from class_traffic_light import TrafficLight
 import time
 import RPi.GPIO as GPIO
