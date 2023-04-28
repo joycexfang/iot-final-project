@@ -85,7 +85,7 @@ Car 2 RPi: `pi@192.168.1.127`
 
 `scp <name_of_this_project_directory> -r username@<ip address>:/home/{username}`
 
-# Joyce's Notes
+# SCP Notes
 
 CAR 1:
 
